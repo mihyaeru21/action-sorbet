@@ -23,26 +23,27 @@ end
 rdjson = {
   source: {
     name: 'sorbet',
-    url: 'https://github.com/sorbet/sorbet'
+    url: 'https://github.com/sorbet/sorbet',
   },
   severity: 'ERROR',
-  diagnostics: diagnostics.map do |d|
-    {
-      message: d[:messages].join("\n"),
-      location: {
-        path: d[:path],
-        range: {
-          start: {
-            line: d[:line]
-          }
-        }
-      },
-      severity: 'ERROR',
-      code: {
-        value: d[:messages][1].split[-1]
+  diagnostics:
+    diagnostics.map do |d|
+      {
+        message: d[:messages].join("\n"),
+        location: {
+          path: d[:path],
+          range: {
+            start: {
+              line: d[:line],
+            },
+          },
+        },
+        severity: 'ERROR',
+        code: {
+          value: d[:messages][1].split[-1],
+        },
       }
-    }
-  end
+    end,
 }
 
 puts rdjson.to_json
