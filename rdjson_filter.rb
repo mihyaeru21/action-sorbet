@@ -12,7 +12,7 @@ while (line = gets)
   case line
   when DIAGNOSTIC_ENTRY
     m = Regexp.last_match
-    diagnostics << { path: m[1], line: m[2].to_i, messages: ["#{m[3]}\n"] }
+    diagnostics << { path: m[1], line: m[2].to_i, messages: [m[3]] }
   when END_MARKER
     break
   else
@@ -28,7 +28,7 @@ rdjson = {
   severity: 'ERROR',
   diagnostics: diagnostics.map do |d|
     {
-      message: d[:messages].join,
+      message: d[:messages].join("\n"),
       location: {
         path: d[:path],
         range: {
