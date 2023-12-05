@@ -3,7 +3,7 @@
 
 require 'json'
 
-DIAGNOSTIC_ENTRY = /^([^:]+):(\d+): (.*)$/.freeze
+DIAGNOSTIC_ENTRY = %r{^([^:]+):(\d+): (.*)\s+(https://srb.help/(\d{4}))$}.freeze
 END_MARKER = /^(Errors: \d+|No errors! Great job.)$/.freeze
 
 diagnostics = []
@@ -12,7 +12,7 @@ while (line = gets)
   case line
   when DIAGNOSTIC_ENTRY
     m = Regexp.last_match
-    diagnostics << { path: m[1], line: m[2].to_i, messages: ["#{m[3]}\n"] }
+    diagnostics << { path: m[1], line: m[2].to_i, messages: ["#{m[3]}\n"], url: m[4], code: m[5] }
   when END_MARKER
     break
   else
@@ -40,7 +40,8 @@ rdjson = {
         },
         severity: 'ERROR',
         code: {
-          value: d[:messages][1].split[-1],
+          value: d[:code],
+          url: d[:url],
         },
       }
     end,
