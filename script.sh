@@ -16,5 +16,6 @@ bundle exec srb typecheck 2>&1 | ruby ${GITHUB_ACTION_PATH}/rdjson_filter.rb \
       -f=rdjson \
       -reporter="${INPUT_REPORTER}" \
       -filter-mode="${INPUT_FILTER_MODE}" \
-      -level="${INPUT_LEVEL}"
+      -level="${INPUT_LEVEL}" \
+      -fail-on-error
 echo '::endgroup::'
